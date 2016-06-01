@@ -37,12 +37,15 @@ class Order(db.Model):
         return self
 
     def as_dictionary(self):
-        post = {
-            "id": self.id,
-            "title": self.title,
-            "body": self.body
+        order = {
+            "order_id": self.order_id,
+            "symbol": self.symbol,
+            "order_type": self.order_type,
+            "price": self.price,
+            "amount": self.amount,
+            "submit_time": self.submit_time
         }
-        return post
+        return order
 
 
 class Stock(db.Model):
