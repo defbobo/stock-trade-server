@@ -3,7 +3,8 @@
 from flask import request, jsonify, abort, current_app
 from datetime import datetime
 from . import apis
-from .. import db
+from .redis_queue import send_orders_via_queue
+from .. import db, redis
 from ..models import Order, Stock, CancelOrder
 from ..decorators import accept
 from random import randrange
@@ -40,6 +41,8 @@ def new_trade():
             current_app.logger.warning(order)
             db.session.add(order)
             db.session.commit()
+            send_orders_via_queue(redis, order_id, symbol, order_type, price,
+                                  amount, submit_time)
             return jsonify({'result': 'true', 'order_id': order_id})
         else:
             return jsonify({'true': 'false', 'order_id': order_id})

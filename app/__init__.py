@@ -4,10 +4,12 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from celery import Celery
 from config import config, Config
+from redis import Redis
 
 
 db = SQLAlchemy()
 celery = Celery(__name__, broker=Config.CELERY_BROKER_URL)
+redis = Redis()
 
 def create_app(config_name):
     app = Flask(__name__)
