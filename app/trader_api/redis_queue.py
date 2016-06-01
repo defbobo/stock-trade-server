@@ -12,3 +12,7 @@ def send_orders_via_queue(conn, order_id, symbol, order_type, price, amount,
         'submit_time': submit_time
     }
     conn.rpush('queue:trade', json.dumps(data))
+
+def send_orders_via_queue2(conn, order):
+    data = order
+    conn.rpush('queue:trade', json.dumps(data))

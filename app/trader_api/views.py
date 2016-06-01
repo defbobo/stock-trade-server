@@ -3,7 +3,7 @@
 from flask import request, jsonify, abort, current_app
 from datetime import datetime
 from . import apis
-from .redis_queue import send_orders_via_queue
+from .redis_queue import send_orders_via_queue, send_orders_via_queue2
 from .. import db, redis
 from ..models import Order, Stock, CancelOrder
 from ..decorators import accept
@@ -66,6 +66,7 @@ def handle_cancel_order():
     cancel_order = CancelOrder(symbol, order_id, order_type, submit_time)
     db.session.add(cancel_order)
     db.session.commit()
+    send_orders_via_queue2(redis, od_query.as_dictionary())
     return jsonify({'result': 'true', 'order_id': order_id})
 
 
