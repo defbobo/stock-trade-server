@@ -36,7 +36,7 @@ class LinuxConfig(Config):
 
         # log to syslog
         import logging
-        from logging.handlers import FileHandler
+        from logging import FileHandler
         file_handler = FileHandler('app.log')
         file_handler.setLevel(logging.DEBUG)
         app.logger.addHandler(file_handler)
