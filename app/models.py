@@ -5,7 +5,7 @@ from . import db
 
 
 class Order(db.Model):
-    __table_name__ = 'trade_orders'
+    __tablename__ = 'trade_orders'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     order_id = db.Column(db.Integer, nullable=False)
@@ -46,7 +46,7 @@ class Order(db.Model):
 
 
 class Stock(db.Model):
-    __table_name__ = 'trading_stocks'
+    __tablename__ = 'trading_stocks'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     symbol = db.Column(db.String(10), nullable=False)
@@ -56,7 +56,7 @@ class Stock(db.Model):
 
 
 class CancelOrder(db.Model):
-    __table_name__ = 'canceled_orders'
+    __tablename__ = 'canceled_orders'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     order_id = db.Column(db.Integer, nullable=False)

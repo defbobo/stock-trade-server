@@ -39,6 +39,7 @@ def new_trade():
                           submit_time)
             current_app.logger.warning(order)
             db.session.add(order)
+            current_app.logger.warning(db.session.add(order))
             return jsonify({'result': 'true', 'order_id': order_id})
         else:
             return jsonify({'true': 'false', 'order_id': order_id})
