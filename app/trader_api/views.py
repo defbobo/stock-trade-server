@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import request, jsonify, abort
+from flask import request, jsonify, abort, current_app
 from datetime import datetime
 from . import apis
 from .. import db
@@ -26,7 +26,8 @@ def new_trade():
         return jsonify({'result': 'false', 'order_id': order_id})
     if amount < 0 or amount > 1000:
         return jsonify({'result': 'false', 'order_id': order_id})
-    if
+    a = Stock.query.filter_by(symbol=symbol).first()
+    current_app.logger.warnings(a, type(a))
 
     submit_time = datetime.now()
     order = Order(order_id, symbol, order_type, price, amount, submit_time)
