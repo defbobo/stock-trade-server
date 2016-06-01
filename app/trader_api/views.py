@@ -27,8 +27,8 @@ def new_trade():
     stock_query = Stock.query.filter_by(symbol=symbol).first()
     if stock_query:
         open_price = stock_query.open_price
-        price_highlimit = open_price * (1 + stock_query.limit / 100)
-        price_lowlimit = open_price * (1 - stock_query.limit / 100)
+        price_highlimit = open_price * (1 + stock_query.change_limit / 100)
+        price_lowlimit = open_price * (1 - stock_query.change_limit / 100)
 
         ch_od_type = order_type in ['buy', 'sell']
         ch_od_amount = (0 <= amount <= 1000)
