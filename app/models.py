@@ -5,7 +5,7 @@ from . import db
 
 
 class Order(db.Model):
-    __tablename__ = 'trade_orders'
+    __tablename__ = 'trade_order'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     order_id = db.Column(db.Integer, nullable=False)
@@ -46,7 +46,7 @@ class Order(db.Model):
 
 
 class Stock(db.Model):
-    __tablename__ = 'trading_stocks'
+    __tablename__ = 'stock'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     symbol = db.Column(db.String(10), nullable=False)
@@ -54,12 +54,18 @@ class Stock(db.Model):
     close_price = db.Column(db.Integer, nullable=True)
     change_limit = db.Column(db.Integer, nullable=False)
 
+    def __repr__(self):
+        return '<orderid %r>' % self.symbol
+
 
 class CancelOrder(db.Model):
-    __tablename__ = 'canceled_orders'
+    __tablename__ = 'cancel_order'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     order_id = db.Column(db.Integer, nullable=False)
     symbol = db.Column(db.String(10), nullable=False)
     order_type = db.Column(db.String(10), nullable=True)
     submit_time = db.Column(db.DateTime, default=datetime.now, nullable=False)
+
+    def __repr__(self):
+        return '<orderid %r>' % self.order_id
