@@ -1,13 +1,13 @@
 """init
 
-Revision ID: 1a82e52b94f7
+Revision ID: 47987db3b2
 Revises: None
-Create Date: 2016-06-01 01:52:48.249836
+Create Date: 2016-06-01 02:20:58.122600
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '1a82e52b94f7'
+revision = '47987db3b2'
 down_revision = None
 
 from alembic import op
@@ -37,7 +37,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('symbol', sa.String(length=10), nullable=False),
     sa.Column('open_price', sa.Integer(), nullable=False),
-    sa.Column('close_price', sa.Integer(), nullable=False),
+    sa.Column('close_price', sa.Integer(), nullable=True),
     sa.Column('change_limit', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
