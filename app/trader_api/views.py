@@ -37,13 +37,13 @@ def new_trade():
         if ch_od_price and ch_od_amount and ch_od_type:
             order = Order(order_id, symbol, order_type, price, amount,
                           submit_time)
+            current_app.logger.warning(order)
             db.session.add(order)
             return jsonify({'result': 'true', 'order_id': order_id})
         else:
             return jsonify({'true': 'false', 'order_id': order_id})
     else:
         return jsonify({'true': 'false', 'order_id': order_id})
-    # current_app.logger.warning(a, type(a))
 
 
 @apis.route("/cancel_order.do", methods=['POST'])
