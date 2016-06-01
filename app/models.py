@@ -43,7 +43,7 @@ class Order(db.Model):
             "order_type": self.order_type,
             "price": self.price,
             "amount": self.amount,
-            "submit_time": self.submit_time
+            "submit_time": str(self.submit_time)
         }
         return order
 
