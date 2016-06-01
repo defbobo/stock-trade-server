@@ -6,6 +6,7 @@ from . import apis
 from .. import db
 from ..models import Order, Stock, CancelOrder
 from ..decorators import accept
+from random import randrange
 
 
 @apis.route("/", methods=['GET'])
@@ -21,20 +22,28 @@ def new_trade():
     price = request.json.get('price')
     amount = request.json.get('amount')
     order_id = gen_order_id()
-
-    if Stock.query.filter_by(symbol=symbol).first() is None:
-        return jsonify({'result': 'false', 'order_id': order_id})
-    if order_type not in ['buy', 'sell']:
-        return jsonify({'result': 'false', 'order_id': order_id})
-    if amount < 0 or amount > 1000:
-        return jsonify({'result': 'false', 'order_id': order_id})
-    a = Stock.query.filter_by(symbol=symbol).first()
-    current_app.logger.warning(a, type(a))
-
     submit_time = datetime.now()
-    order = Order(order_id, symbol, order_type, price, amount, submit_time)
-    db.session.add(order)
-    return jsonify({'result': 'true', 'order_id': order_id})
+
+    stock_query = Stock.query.filter_by(symbol=symbol).first()
+    if stock_query:
+        open_price = stock_query.open_price
+        price_highlimit = open_price * (1 + stock_query.limit / 100)
+        price_lowlimit = open_price * (1 - stock_query.limit / 100)
+
+        ch_od_type = order_type in ['buy', 'sell']
+        ch_od_amount = (0 <= amount <= 1000)
+        ch_od_price = (price_lowlimit <= price <= price_highlimit)
+
+        if ch_od_price and ch_od_amount and ch_od_type:
+            order = Order(order_id, symbol, order_type, price, amount,
+                          submit_time)
+            db.session.add(order)
+            return jsonify({'result': 'true', 'order_id': order_id})
+        else:
+            return jsonify({'true': 'false', 'order_id': order_id})
+    else:
+        return jsonify({'true': 'false', 'order_id': order_id})
+    # current_app.logger.warning(a, type(a))
 
 
 @apis.route("/cancel_order.do", methods=['POST'])
@@ -52,4 +61,4 @@ def handle_cancel_order():
 
 
 def gen_order_id():
-    return 1000
+    return randrange(100000, 999999)
