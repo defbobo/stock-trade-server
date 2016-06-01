@@ -67,5 +67,11 @@ class CancelOrder(db.Model):
     order_type = db.Column(db.String(10), nullable=True)
     submit_time = db.Column(db.DateTime, default=datetime.now, nullable=False)
 
+    def __init__(self, order_id, symbol, order_type, submit_time):
+        self.order_id = order_id
+        self.symbol = symbol
+        self.order_type = order_type
+        self.submit_time = submit_time
+
     def __repr__(self):
         return '<orderid %r>' % self.order_id
