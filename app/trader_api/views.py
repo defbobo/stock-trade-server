@@ -26,6 +26,7 @@ def new_trade():
         return jsonify({'result': 'false', 'order_id': order_id})
     if amount < 0 or amount > 1000:
         return jsonify({'result': 'false', 'order_id': order_id})
+    if
 
     submit_time = datetime.now()
     order = Order(order_id, symbol, order_type, price, amount, submit_time)
