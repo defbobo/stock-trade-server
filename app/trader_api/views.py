@@ -58,7 +58,10 @@ def handle_cancel_order():
     order_type = 'cancel'
     submit_time = datetime.now()
 
-    if Order.query.filter_by(symbol=symbol, order_id=order_id).first() is None:
+    od_query = Order.query.filter_by(symbol=symbol, order_id=order_id).first()
+    current_app.logger.warning(dir(od_query))
+
+    if od_query is None:
         return jsonify({'true': 'false', 'order_id': order_id})
     cancel_order = CancelOrder(symbol, order_id, order_type, submit_time)
     db.session.add(cancel_order)
