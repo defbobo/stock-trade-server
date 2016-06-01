@@ -7,9 +7,11 @@ from .. import db
 from ..models import Order, Stock, CancelOrder
 from ..decorators import accept
 
+
 @apis.route("/", methods=['GET'])
 def index():
     return 'Hi, welcome XIXI trading center'
+
 
 @apis.route("/trade.do", methods=['POST'])
 @accept('application/json')
@@ -27,7 +29,7 @@ def new_trade():
     if amount < 0 or amount > 1000:
         return jsonify({'result': 'false', 'order_id': order_id})
     a = Stock.query.filter_by(symbol=symbol).first()
-    current_app.logger.warnings(a, type(a))
+    current_app.logger.warning(a, type(a))
 
     submit_time = datetime.now()
     order = Order(order_id, symbol, order_type, price, amount, submit_time)
@@ -47,6 +49,7 @@ def handle_cancel_order():
     cancel_order = CancelOrder(symbol, order_id, order_type)
     db.session.add(cancel_order)
     return jsonify({'result': 'true', 'order_id': order_id})
+
 
 def gen_order_id():
     return 1000
