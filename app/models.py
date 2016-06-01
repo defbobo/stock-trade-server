@@ -51,7 +51,7 @@ class Stock(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     symbol = db.Column(db.String(10), nullable=False)
     open_price = db.Column(db.Integer, nullable=False)
-    close_price = db.Column(db.Integer, nullable=False)
+    close_price = db.Column(db.Integer, nullable=True)
     change_limit = db.Column(db.Integer, nullable=False)
 
 
