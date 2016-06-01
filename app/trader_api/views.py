@@ -42,7 +42,7 @@ def new_trade():
             db.session.add(order)
             db.session.commit()
             send_orders_via_queue(redis, order_id, symbol, order_type, price,
-                                  amount, submit_time)
+                                  amount, str(submit_time))
             return jsonify({'result': 'true', 'order_id': order_id})
         else:
             return jsonify({'true': 'false', 'order_id': order_id})
