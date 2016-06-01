@@ -62,3 +62,4 @@ class CancelOrder(db.Model):
     order_id = db.Column(db.Integer, nullable=False)
     symbol = db.Column(db.String(10), nullable=False)
     order_type = db.Column(db.String(10), nullable=True)
+    submit_time = db.Column(db.DateTime, default=datetime.now, nullable=False)

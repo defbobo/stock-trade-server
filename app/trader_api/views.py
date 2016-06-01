@@ -39,7 +39,7 @@ def new_trade():
                           submit_time)
             current_app.logger.warning(order)
             db.session.add(order)
-            current_app.logger.warning(db.session.add(order))
+            db.session.commit()
             return jsonify({'result': 'true', 'order_id': order_id})
         else:
             return jsonify({'true': 'false', 'order_id': order_id})
@@ -53,11 +53,13 @@ def handle_cancel_order():
     symbol = request.json.get('symbol')
     order_id = request.json.get('order_id')
     order_type = 'cancel'
+    submit_time = datetime.now()
 
     if Order.query.filter_by(symbol=symbol, order_id=order_id).first() is None:
-        abort(400)
-    cancel_order = CancelOrder(symbol, order_id, order_type)
+        return jsonify({'true': 'false', 'order_id': order_id})
+    cancel_order = CancelOrder(symbol, order_id, order_type, submit_time)
     db.session.add(cancel_order)
+    db.session.commit()
     return jsonify({'result': 'true', 'order_id': order_id})
 
 
