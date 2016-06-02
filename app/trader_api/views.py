@@ -2,10 +2,12 @@
 
 from flask import request, jsonify, abort, current_app
 from datetime import datetime
+import json
 from . import apis
-from .redis_queue import send_orders_via_queue, send_orders_via_queue2
-from .. import db, redis
+# from .redis_queue import send_orders_via_queue, send_orders_via_queue2
+from .. import db
 from ..models import Order, Stock, CancelOrder
+from ..trade_app import handle_order
 from ..decorators import accept
 from random import randrange
 
@@ -41,8 +43,7 @@ def new_trade():
             current_app.logger.warning(order)
             db.session.add(order)
             db.session.commit()
-            send_orders_via_queue(redis, order_id, symbol, order_type, price,
-                                  amount, str(submit_time))
+            handle_order.delay(order_type, order)
             return jsonify({'result': 'true', 'order_id': order_id})
         else:
             return jsonify({'true': 'false', 'order_id': order_id})
@@ -66,7 +67,7 @@ def handle_cancel_order():
     cancel_order = CancelOrder(symbol, order_id, order_type, submit_time)
     db.session.add(cancel_order)
     db.session.commit()
-    send_orders_via_queue2(redis, od_query.as_dictionary())
+    handle_order.delay(order_type, json.dumps(od_query.as_dictionary()))
     return jsonify({'result': 'true', 'order_id': order_id})
 
 
