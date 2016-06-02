@@ -31,6 +31,8 @@ class OrderMatch(object):
 
     def deal(self):
         max_buy, min_sell = self.closest_pair()
+        if max_buy and min_sell:
+            return False, []
         max_buy_price, max_buy_order = (max_buy if max_buy else (0, None))
         min_sell_price, min_sell_order = (min_sell if min_sell else (0, None))
         # print(max_buy, min_sell)
