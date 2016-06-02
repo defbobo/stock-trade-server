@@ -34,14 +34,13 @@ class OrderMatch(object):
         max_buy, min_sell = self.closest_pair()
         current_app.logger.warning(max_buy)
         current_app.logger.warning(min_sell)
-        if max_buy or min_sell:
-            return False, []
+
         max_buy_price, max_buy_order = (max_buy if max_buy else (0, None))
         min_sell_price, min_sell_order = (min_sell if min_sell else (0, None))
-        # print(max_buy, min_sell)
-        deal_list_pool = []
 
-        # print(min_sell[0] <= max_buy[0])
+        deal_list_pool = []
+        if max_buy_price * min_sell_price:
+            return False, deal_list_pool
 
         if min_sell_price <= max_buy_price:
             sell_amount = min_sell_order.get_price_depth()
