@@ -7,7 +7,7 @@ class OrderMatch(object):
         self.dealpair = {'buy': BaseQueue(), 'sell': BaseQueue()}
 
     def submit(self, order):
-        order_type = order.type
+        order_type = order.order_type
         order_price = order.price
         if not self.dealpair[order_type].get(order_price):
             self.dealpair[order_type].insert(order_price, OrderQueue())
@@ -16,7 +16,7 @@ class OrderMatch(object):
             self.dealpair[order_type][order_price].append(order)
 
     def cancel(self, order):
-        order_type = order.type
+        order_type = order.order_type
         order_price = order.price
         if self.dealpair[order_type].get(order_price):
             self.dealpair[order_type][order_price].remove(order)
