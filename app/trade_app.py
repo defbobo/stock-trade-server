@@ -3,9 +3,12 @@ from .match.match import OrderMatch
 from .match.order import Order
 from . import celery
 from flask import current_app
+import json
 
 @celery.task
 def handle_order(order_type, order):
+    order = json.load(order)
+    current_app.logger.warning(order)
     id = order['order_id']
     timestamp = order['submit_time']
     symbol = order['symbol']
