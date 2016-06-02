@@ -3,11 +3,11 @@
 class Order(object):
     """Stock Order data model"""
 
-    def __init__(self, id, timestamp, symbol, type, price, amount):
-        self.id = id
+    def __init__(self, order_id, timestamp, symbol, order_type, price, amount):
+        self.order_id = order_id
         self.timestamp = timestamp
         self.symbol = symbol
-        self.type = type
+        self.order_type = order_type
         self.price = price
         self.amount = amount
 
@@ -38,6 +38,6 @@ class Order(object):
             return True
 
     def copy_order(self):
-        copy_order = Order(self.id, self.timestamp, self.symbol, self.type,
-                           self.price, self.amount)
+        copy_order = Order(self.order_id, self.timestamp, self.symbol,
+                           self.order_type, self.price, self.amount)
         return copy_order

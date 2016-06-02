@@ -7,16 +7,17 @@ import json
 
 @celery.task
 def handle_order(order_type, order):
-    order = json.load(order)
     current_app.logger.warning(order)
-    id = order['order_id']
+    order = json.loads(order)
+    current_app.logger.warning(order)
+    order_id = order['order_id']
     timestamp = order['submit_time']
     symbol = order['symbol']
-    type = order['order_type']
+    order_type = order['order_type']
     price = order['price']
     amount = order['amount']
 
-    new_order = Order(id, timestamp, symbol, type, price, amount)
+    new_order = Order(order_id, timestamp, symbol, order_type, price, amount)
     order_match = OrderMatch()
 
     if order_type == 'cancel':
