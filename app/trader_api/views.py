@@ -32,6 +32,7 @@ def new_trade():
         open_price = stock_query.open_price
         price_highlimit = open_price * (1 + stock_query.change_limit / 100)
         price_lowlimit = open_price * (1 - stock_query.change_limit / 100)
+        current_app.logger.warning(price_lowlimit)
 
         ch_od_type = order_type in ['buy', 'sell']
         ch_od_amount = (0 <= amount <= 1000)
