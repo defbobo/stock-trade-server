@@ -9,9 +9,9 @@ order_match = OrderMatch()
 
 @celery.task
 def handle_order(order_type, order):
-    current_app.logger.warning(order)
+    # current_app.logger.warning(order)
     order = json.loads(order)
-    current_app.logger.warning(order)
+    # current_app.logger.warning(order)
     order_id = order['order_id']
     timestamp = order['submit_time']
     symbol = order['symbol']
@@ -28,4 +28,4 @@ def handle_order(order_type, order):
         order_match.submit(new_order)
 
     dealed_order = order_match.deal()
-    current_app.logger.warning(dealed_order)
+    current_app.logger.warning('dealed_order: {}'.format(dealed_order))
