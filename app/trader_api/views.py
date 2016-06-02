@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import division
-from flask import request, jsonify, current_app
+from flask import request, jsonify
 from datetime import datetime
 import json
 from . import apis
@@ -33,7 +33,6 @@ def new_trade():
         open_price = stock_query.open_price
         price_highlimit = open_price * (1 + stock_query.change_limit / 100)
         price_lowlimit = open_price * (1 - stock_query.change_limit / 100)
-        # current_app.logger.warning('price_lowlimit:{}'.format(price_lowlimit))
 
         ch_od_type = order_type in ['buy', 'sell']
         ch_od_amount = (0 <= amount <= 1000)
@@ -42,7 +41,6 @@ def new_trade():
         if ch_od_price and ch_od_amount and ch_od_type:
             order = Order(order_id, symbol, order_type, price, amount,
                           submit_time)
-            # current_app.logger.warning(order)
             db.session.add(order)
             db.session.commit()
             handle_order.delay(order_type, json.dumps(order.as_dictionary()))
@@ -62,7 +60,6 @@ def handle_cancel_order():
     submit_time = datetime.now()
 
     od_query = Order.query.filter_by(symbol=symbol, order_id=order_id).first()
-    # current_app.logger.warning(od_query.as_dictionary())
 
     if od_query is None:
         return jsonify({'true': 'false', 'order_id': order_id})

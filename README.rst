@@ -14,7 +14,7 @@ curl -i -X POST \
     "order_type": "buy",
     "price": 100,
     "amount": 100
-}' http://192.168.33.10:5000/trade.do
+}' http://192.168.33.10:8000/trade.do
 
 $ curl -i -X POST \
     -H "Content-Type: application/json; indent=4" \

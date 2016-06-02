@@ -34,7 +34,7 @@ class LinuxConfig(Config):
     def init_app(cls, app):
         Config.init_app(app)
 
-        # log to syslog
+        # log to file
         import logging
         from logging import FileHandler
         file_handler = FileHandler('app.log')

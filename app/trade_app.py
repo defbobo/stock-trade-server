@@ -2,7 +2,6 @@
 from .match.match import OrderMatch
 from .match.order import Order
 from . import celery
-from flask import current_app
 import json
 
 order_match = OrderMatch()
@@ -27,5 +26,5 @@ def handle_order(order_type, order):
     else:
         order_match.submit(new_order)
 
-    dealed_order = order_match.deal()
-    current_app.logger.warning('dealed_order: {}'.format(dealed_order))
+    _, dealed_order = order_match.deal()
+    return dealed_order

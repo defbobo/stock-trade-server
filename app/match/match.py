@@ -39,7 +39,7 @@ class OrderMatch(object):
         min_sell_price, min_sell_order = (min_sell if min_sell else (0, None))
 
         deal_list_pool = []
-        if max_buy_price * min_sell_price:
+        if not max_buy_price * min_sell_price:
             return False, deal_list_pool
 
         current_app.logger.warning('debug identify')
@@ -76,21 +76,3 @@ class OrderMatch(object):
                 self.dealpair['buy'].remove(max_buy_price)
 
         return True, deal_list_pool
-
-if __name__ == '__main__':
-    from order import Order
-    from datetime import datetime
-
-    buy1 = Order('1', datetime.now(), 'ab', 'buy', 100, 400)
-    buy2 = Order('2', datetime.utcnow(), 'ab', 'buy', 100, 400)
-    sell1 = Order('1', datetime.now(), 'bb', 'sell', 100, 200)
-    sell2 = Order('2', datetime.utcnow(), 'bb', 'sell', 100, 20)
-
-    om = OrderMatch()
-    om.submit(buy1)
-    om.submit(buy2)
-    om.submit(sell1)
-    om.submit(sell2)
-    # print(om.closest_pair())
-    a, b = om.deal()
-    print(b)
