@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from utils import BaseQueue, OrderQueue
+from flask import current_app
 
 class OrderMatch(object):
 
@@ -31,6 +32,8 @@ class OrderMatch(object):
 
     def deal(self):
         max_buy, min_sell = self.closest_pair()
+        current_app.logger.warning(max_buy)
+        current_app.logger.warning(min_sell)
         if max_buy or min_sell:
             return False, []
         max_buy_price, max_buy_order = (max_buy if max_buy else (0, None))
