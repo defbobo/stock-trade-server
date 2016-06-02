@@ -47,5 +47,5 @@ config = {
     'testing': TestingConfig,
     'linux': LinuxConfig,
 
-    'default': LinuxConfig
+    'default': DevelopmentConfig
 }
