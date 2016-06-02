@@ -5,6 +5,8 @@ from . import celery
 from flask import current_app
 import json
 
+order_match = OrderMatch()
+
 @celery.task
 def handle_order(order_type, order):
     current_app.logger.warning(order)
@@ -18,7 +20,7 @@ def handle_order(order_type, order):
     amount = order['amount']
 
     new_order = Order(order_id, timestamp, symbol, order_type, price, amount)
-    order_match = OrderMatch()
+    global order_match
 
     if order_type == 'cancel':
         order_match.cancel(new_order)
