@@ -42,6 +42,8 @@ class OrderMatch(object):
         if max_buy_price * min_sell_price:
             return False, deal_list_pool
 
+        current_app.logger.warning('debug identify')
+
         if min_sell_price <= max_buy_price:
             sell_amount = min_sell_order.get_price_depth()
             buy_amount = max_buy_order.get_price_depth()
