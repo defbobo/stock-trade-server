@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .match.match import OrderMatch
+from .match.order import Order
 from . import celery
 from flask import current_app
 

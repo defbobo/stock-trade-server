@@ -43,7 +43,7 @@ def new_trade():
             current_app.logger.warning(order)
             db.session.add(order)
             db.session.commit()
-            handle_order.delay(order_type, order)
+            handle_order.delay(order_type, json.dumps(order.as_dictionary()))
             return jsonify({'result': 'true', 'order_id': order_id})
         else:
             return jsonify({'true': 'false', 'order_id': order_id})
